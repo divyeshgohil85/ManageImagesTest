@@ -1,0 +1,143 @@
+﻿@model ManageImageTest.Models.Image
+
+@{
+    ViewBag.Title = "Add Image";
+}
+
+<h2>Add Image</h2>
+
+
+
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "form-label" })
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+    </div>
+    <br />
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Image File</label>
+        <input type="file" id="formFile">
+        <span class="fileValidation text-danger" data-valmsg-replace="true"></span>
+    </div>
+
+    <br />
+    <div class="form-group">
+        <div class="col-md-6">
+            <input type="submit" id="SaveImage" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $('#SaveImage').click(function () {
+                var fileUpload = $("#formFile").get(0);
+                var file = fileUpload.files[0];
+                var isError = false;
+                //var Extension = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
+
+                if ($("#Title").val().trim() == "") {
+                    $(".field-validation-valid").text("Please enter Title");
+                    isError = true;
+                }
+                else {
+                    $(".field-validation-valid").text("");
+                }
+                if (fileUpload.files.length == 0) {
+                    $(".fileValidation").text("Please Choose an Image");
+                    isError = true;
+                }
+                else {
+                    var sizeKB = file.size / 1024;
+                    if (sizeKB > 5000) {
+                        $(".fileValidation").text("File size is greater than 5 MB");
+                        $("#formFile").val("");
+                        isError = true;
+                    }
+                    else if (!file.type.match('image.*')) {
+                        $(".fileValidation").text("This format is not supported");
+                        $("#formFile").val("");
+                        isError = true;
+                    }
+                    else {
+                        $(".fileValidation").text("");
+                    }
+                }
+                if (!isError) {
+                    if (window.FormData !== undefined) {
+
+                        var fileData = new FormData();
+                        fileData.append('imageUploadForm', file);
+                        //var title = $("#Title").val()
+                        //fileData.append('Title', title);
+                        $.ajax({
+                            url: '/Image/AddImage?title=' + $("#Title").val(),
+                            type: "POST",
+                            contentType: false,
+                            processData: false,
+                            data: fileData,
+                            success: function (result) {
+                                location.href = '/Image/Index';
+                            },
+                            error: function (err) {
+                                alert(err.statusText);
+                            }
+                        });
+                    } else {
+                        alert("FormData is not supported.");
+                    }
+                }
+            });
+        });
+            //function btnSubmit() {
+            //    debugger;
+            //    var file = $("#imageUploadForm")[0].files[0];//get file
+            //    var Extension = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
+            //    if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+            //        var sizeKB = file.size / 1024;
+            //        if (sizeKB > 5000) {
+            //            alert('File size is greater than 5MB.')
+            //            return;
+            //        }
+            //        if ($("#Tittle").val().length > 100) {
+            //            alert('Title text should be less than 100 character.')
+            //            return;
+            //        }
+            //        var fileUpload = $("#imageUploadForm")[0].files[0];
+            //        var fileData = new FormData();
+            //        fileData.append("imageUploadForm", fileUpload);
+            //        $.ajax({
+            //            url: '/Image/AddEdit?title=' + $("#Tittle").val(),
+            //            type: "POST",
+            //            processData: false,
+            //            contentType: false,
+            //            data: fileData,
+            //            success:
+            //                alert('Record Saved Successfully !!!')
+            //        });
+            //    }
+            //    else {
+            //        alert('Please upload image file !!!');
+            //    }
+            //}
+        /*});*/
+    </script>
+}
+

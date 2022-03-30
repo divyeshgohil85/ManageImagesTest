@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ManageImageTest.Models.Image>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Image File Index</h2>
+<hr />
+
+<p style="text-align:right;margin-right: 20px;">
+    @Html.ActionLink("Add New", "AddImage", "", new { @class = "btn btn-primary" })
+</p>
+@if (TempData["sel"] != null && (bool)TempData["sel"] == true)
+{
+    <div class="alert alert-danger" role="alert">
+        <h3 align="center">Please Select Image to Download Zip File !</h3>
+    </div>
+}
+
+<table class="table table-striped">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <tr>
+            <th>
+                @Html.CheckBox("Checkbox", new { @id = "selectall" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateConverted)
+            </th>
+
+        </tr>
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+
+                    @Html.CheckBox("Checkbox", new { @id = item.ImageId,@class= "checkboxall" })
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageName)
+                </td>
+
+                <td>
+                    <img src="data:image/png;base64,@item.ImageText" alt="" height=100 width=150 />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateConverted)
+                </td>
+
+
+            </tr>
+        }
+    }
+
+    else
+    {
+        <tr>
+            <td colspan="4" class="text-center"><h1>No Record Found</h1></td>
+        </tr>
+    }
+</table>
+<a onclick="btnDownload()" class="btn btn-primary" style="margin-top:20px;">Download Zip</a>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#selectall").click(function () {
+            if (this.checked) {
+                $('.checkboxall').each(function () {
+                    $(".checkboxall").prop('checked', true);
+                })
+            } else {
+                $('.checkboxall').each(function () {
+                    $(".checkboxall").prop('checked', false);
+                })
+            }
+        });
+        function btnDownload() {
+            let ids = ''
+            $("input[type='Checkbox']:checked").each(function () { ids += $(this).attr("id") + "," })
+            location.href = "/Image/DownloadZipFile?imageids=" + ids;
+        };
+    </script>
+}
+
+
+
