@@ -128,19 +128,6 @@ namespace ManageImageTest.Controllers
             return File(finalResult, "application/zip", fileName);
         }
         #endregion
-        #region Function to delete Image
-        public ActionResult DeleteImage(int id)
-        {
-            Image image = _context.Images.FirstOrDefault(m => m.ImageId == id);
-            if (id > 0)
-            {
-                _context.Images.Remove(image);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-        #endregion
 
     }
 }
