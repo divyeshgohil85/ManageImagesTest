@@ -6,36 +6,79 @@
 
 <h2>Add Image</h2>
 
+<!DOCTYPE html>
+<html lang="en"
+      class="light-style layout-menu-fixed"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="../assets/"
+      data-template="vertical-menu-template-free">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Add Image</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="../assets/js/config.js"></script>
+</head>
+
+<body>
 
 
-@Html.AntiForgeryToken()
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
 
-<div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="card">
+                        <h5 class="card-header">Add Image</h5>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Image Title</label>
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Image</label>
+                                <input type="file" id="formFile" class="form-control">
+                                <span class="fileValidation text-danger" data-valmsg-replace="true"></span>
+                            </div>
+                            <button type="submit" id="SaveImage" value="Save" " class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-    <div class="mb-3">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "form-label" })
-        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-
-    </div>
-    <br />
-    <div class="mb-3">
-        <label for="formFile" class="form-label">Image File</label>
-        <input type="file" id="formFile">
-        <span class="fileValidation text-danger" data-valmsg-replace="true"></span>
-    </div>
-
-    <br />
-    <div class="form-group">
-        <div class="col-md-6">
-            <input type="submit" id="SaveImage" value="Save" class="btn btn-primary" />
+            <div class="layout-overlay layout-menu-toggle"></div>
         </div>
     </div>
-
-</div>
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboards-analytics.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>
 
 
 <div>
@@ -51,7 +94,6 @@
                 var fileUpload = $("#formFile").get(0);
                 var file = fileUpload.files[0];
                 var isError = false;
-                //var Extension = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
 
                 if ($("#Title").val().trim() == "") {
                     $(".field-validation-valid").text("Please enter Title");
@@ -85,8 +127,6 @@
 
                         var fileData = new FormData();
                         fileData.append('imageUploadForm', file);
-                        //var title = $("#Title").val()
-                        //fileData.append('Title', title);
                         $.ajax({
                             url: '/Image/AddImage?title=' + $("#Title").val(),
                             type: "POST",
@@ -106,38 +146,6 @@
                 }
             });
         });
-            //function btnSubmit() {
-            //    debugger;
-            //    var file = $("#imageUploadForm")[0].files[0];//get file
-            //    var Extension = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
-            //    if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
-            //        var sizeKB = file.size / 1024;
-            //        if (sizeKB > 5000) {
-            //            alert('File size is greater than 5MB.')
-            //            return;
-            //        }
-            //        if ($("#Tittle").val().length > 100) {
-            //            alert('Title text should be less than 100 character.')
-            //            return;
-            //        }
-            //        var fileUpload = $("#imageUploadForm")[0].files[0];
-            //        var fileData = new FormData();
-            //        fileData.append("imageUploadForm", fileUpload);
-            //        $.ajax({
-            //            url: '/Image/AddEdit?title=' + $("#Tittle").val(),
-            //            type: "POST",
-            //            processData: false,
-            //            contentType: false,
-            //            data: fileData,
-            //            success:
-            //                alert('Record Saved Successfully !!!')
-            //        });
-            //    }
-            //    else {
-            //        alert('Please upload image file !!!');
-            //    }
-            //}
-        /*});*/
     </script>
 }
 

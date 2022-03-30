@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ICSharpCode.SharpZipLib.Zip;
 using ManageImageTest.Models;
+using NLog;
 
 namespace ManageImageTest.Controllers
 {
     public class ImageController : Controller
     {
         public readonly ImagesContext _context;
+        Logger logger = LogManager.GetCurrentClassLogger();
         public ActionResult Index()
         {
+            TempData.Keep();
             using (var db = new ImagesContext())
             {
                 List<Image> images = db.Images.ToList();
@@ -48,16 +50,22 @@ namespace ManageImageTest.Controllers
                     db.Images.Add(img);
                     db.SaveChanges();
                 }
+                TempData["addSuccess"] = true;
                 return Json("File Uploaded Successfully!");
-                //return RedirectToAction("Index");
             }
             return View();
         }
         #endregion
 
         #region Function to download zip file
-        public FileResult DownloadZipFile(string imageIds)
+        public ActionResult DownloadFile(string imageIds)
         {
+            if (String.IsNullOrEmpty(imageIds))
+            {
+                TempData["zipError"] = true;
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+            }
             imageIds = imageIds.TrimEnd(',');
             string[] ids = imageIds.Split(',');
             var fileName = string.Format("{0}_ImageFiles.zip", DateTime.Today.Date.ToString("dd-MM-yyyy") + "_1");
@@ -95,7 +103,10 @@ namespace ManageImageTest.Controllers
                                 }
                             }
                         }
-                        catch (Exception ex) { continue; }
+                        catch (Exception ex) {
+                            logger.Error("Error occured in Image controller DownloadFile Action", ex);
+                            continue; 
+                        }
                     }
                 }
                 currentZip.Finish();
@@ -118,18 +129,5 @@ namespace ManageImageTest.Controllers
         }
         #endregion
 
-        //#region Function to delete file
-        //public ActionResult Delete(int id)
-        //{
-        //    Image image = _context.Images.FirstOrDefault(m => m.ImageId == id);
-        //    if (id > 0)
-        //    {
-        //        _context.Images.Remove(image);
-        //        _context.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-        //#endregion
     }
 }

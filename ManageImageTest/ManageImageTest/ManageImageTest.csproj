@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,18 +47,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.0.0-rc2\lib\net46\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -157,14 +162,121 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\demo.css" />
+    <Content Include="assets\img\avatars\1.png" />
+    <Content Include="assets\img\avatars\5.png" />
+    <Content Include="assets\img\avatars\6.png" />
+    <Content Include="assets\img\avatars\7.png" />
+    <Content Include="assets\img\backgrounds\18.jpg" />
+    <Content Include="assets\img\elements\1.jpg" />
+    <Content Include="assets\img\elements\11.jpg" />
+    <Content Include="assets\img\elements\12.jpg" />
+    <Content Include="assets\img\elements\13.jpg" />
+    <Content Include="assets\img\elements\17.jpg" />
+    <Content Include="assets\img\elements\18.jpg" />
+    <Content Include="assets\img\elements\19.jpg" />
+    <Content Include="assets\img\elements\2.jpg" />
+    <Content Include="assets\img\elements\20.jpg" />
+    <Content Include="assets\img\elements\3.jpg" />
+    <Content Include="assets\img\elements\4.jpg" />
+    <Content Include="assets\img\elements\5.jpg" />
+    <Content Include="assets\img\elements\7.jpg" />
+    <Content Include="assets\img\favicon\favicon.ico" />
+    <Content Include="assets\img\icons\brands\asana.png" />
+    <Content Include="assets\img\icons\brands\behance.png" />
+    <Content Include="assets\img\icons\brands\dribbble.png" />
+    <Content Include="assets\img\icons\brands\facebook.png" />
+    <Content Include="assets\img\icons\brands\github.png" />
+    <Content Include="assets\img\icons\brands\google.png" />
+    <Content Include="assets\img\icons\brands\instagram.png" />
+    <Content Include="assets\img\icons\brands\mailchimp.png" />
+    <Content Include="assets\img\icons\brands\slack.png" />
+    <Content Include="assets\img\icons\brands\twitter.png" />
+    <Content Include="assets\img\icons\unicons\cc-primary.png" />
+    <Content Include="assets\img\icons\unicons\cc-success.png" />
+    <Content Include="assets\img\icons\unicons\cc-warning.png" />
+    <Content Include="assets\img\icons\unicons\chart-success.png" />
+    <Content Include="assets\img\icons\unicons\chart.png" />
+    <Content Include="assets\img\icons\unicons\paypal.png" />
+    <Content Include="assets\img\icons\unicons\wallet-info.png" />
+    <Content Include="assets\img\icons\unicons\wallet.png" />
+    <Content Include="assets\img\illustrations\girl-doing-yoga-light.png" />
+    <Content Include="assets\img\illustrations\man-with-laptop-light.png" />
+    <Content Include="assets\img\illustrations\page-misc-error-light.png" />
+    <Content Include="assets\img\layouts\layout-container-light.png" />
+    <Content Include="assets\img\layouts\layout-fluid-light.png" />
+    <Content Include="assets\img\layouts\layout-without-menu-light.png" />
+    <Content Include="assets\img\layouts\layout-without-navbar-light.png" />
+    <Content Include="assets\img\logo.svg" />
+    <Content Include="assets\js\config.js" />
+    <Content Include="assets\js\dashboards-analytics.js" />
+    <Content Include="assets\js\extended-ui-perfect-scrollbar.js" />
+    <Content Include="assets\js\form-basic-inputs.js" />
+    <Content Include="assets\js\main.js" />
+    <Content Include="assets\js\pages-account-settings-account.js" />
+    <Content Include="assets\js\ui-modals.js" />
+    <Content Include="assets\js\ui-popover.js" />
+    <Content Include="assets\js\ui-toasts.js" />
+    <Content Include="assets\vendor\css\core.css" />
+    <Content Include="assets\vendor\css\pages\page-account-settings.css" />
+    <Content Include="assets\vendor\css\pages\page-auth.css" />
+    <Content Include="assets\vendor\css\pages\page-icons.css" />
+    <Content Include="assets\vendor\css\pages\page-misc.css" />
+    <Content Include="assets\vendor\css\theme-default.css" />
+    <Content Include="assets\vendor\fonts\boxicons.css" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.svg" />
+    <Content Include="assets\vendor\js\bootstrap.js" />
+    <Content Include="assets\vendor\js\helpers.js" />
+    <Content Include="assets\vendor\js\menu.js" />
+    <Content Include="assets\vendor\libs\apex-charts\apex-charts.css" />
+    <Content Include="assets\vendor\libs\apex-charts\apexcharts.js" />
+    <Content Include="assets\vendor\libs\highlight\highlight-github.css" />
+    <Content Include="assets\vendor\libs\highlight\highlight.css" />
+    <Content Include="assets\vendor\libs\highlight\highlight.js" />
+    <Content Include="assets\vendor\libs\jquery\jquery.js" />
+    <Content Include="assets\vendor\libs\masonry\masonry.js" />
+    <Content Include="assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.css" />
+    <Content Include="assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <Content Include="assets\vendor\libs\popper\popper.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="dist\css\core.css" />
+    <Content Include="dist\css\pages\page-account-settings.css" />
+    <Content Include="dist\css\pages\page-auth.css" />
+    <Content Include="dist\css\pages\page-icons.css" />
+    <Content Include="dist\css\pages\page-misc.css" />
+    <Content Include="dist\css\theme-default.css" />
+    <Content Include="dist\fonts\boxicons.css" />
+    <Content Include="dist\fonts\boxicons\boxicons.svg" />
+    <Content Include="dist\js\bootstrap.js" />
+    <Content Include="dist\js\helpers.js" />
+    <Content Include="dist\js\menu.js" />
+    <Content Include="dist\libs\apex-charts\apex-charts.css" />
+    <Content Include="dist\libs\apex-charts\apexcharts.js" />
+    <Content Include="dist\libs\highlight\highlight-github.css" />
+    <Content Include="dist\libs\highlight\highlight.css" />
+    <Content Include="dist\libs\highlight\highlight.js" />
+    <Content Include="dist\libs\jquery\jquery.js" />
+    <Content Include="dist\libs\masonry\masonry.js" />
+    <Content Include="dist\libs\perfect-scrollbar\perfect-scrollbar.css" />
+    <Content Include="dist\libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <Content Include="dist\libs\popper\popper.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="js\bootstrap.js" />
+    <Content Include="js\helpers.js" />
+    <Content Include="js\menu.js" />
+    <Content Include="libs\apex-charts\apexcharts.js" />
+    <Content Include="libs\highlight\highlight.js" />
+    <Content Include="libs\jquery\jquery.js" />
+    <Content Include="libs\masonry\masonry.js" />
+    <Content Include="libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <Content Include="libs\popper\popper.js" />
+    <Content Include="Logs\ErrorLogs.txt" />
     <Content Include="Models\ImageModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ImageModel.edmx</DependentUpon>
@@ -184,6 +296,19 @@
     <Content Include="Models\ImageModel.edmx.diagram">
       <DependentUpon>ImageModel.edmx</DependentUpon>
     </Content>
+    <Content Include="NLog.config" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.eot" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.ttf" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.woff" />
+    <Content Include="assets\vendor\fonts\boxicons\boxicons.woff2" />
+    <Content Include="dist\fonts\boxicons\boxicons.eot" />
+    <Content Include="dist\fonts\boxicons\boxicons.ttf" />
+    <Content Include="dist\fonts\boxicons\boxicons.woff" />
+    <Content Include="dist\fonts\boxicons\boxicons.woff2" />
+    <Content Include="libs\apex-charts\apex-charts.scss" />
+    <Content Include="libs\highlight\highlight-github.scss" />
+    <Content Include="libs\highlight\highlight.scss" />
+    <Content Include="libs\perfect-scrollbar\perfect-scrollbar.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -195,6 +320,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="tasks\build.js" />
+    <Content Include="tasks\prod.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -211,9 +338,97 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Image\AddImage.cshtml" />
     <Content Include="Views\Image\Index.cshtml" />
+    <Content Include="scss\core.scss" />
+    <Content Include="scss\pages\page-account-settings.scss" />
+    <Content Include="scss\pages\page-auth.scss" />
+    <Content Include="scss\pages\page-icons.scss" />
+    <Content Include="scss\pages\page-misc.scss" />
+    <Content Include="scss\theme-default.scss" />
+    <Content Include="scss\_bootstrap-extended.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_floating-labels.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_form-control.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_form-range.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_form-select.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_input-group.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_labels.scss" />
+    <Content Include="scss\_bootstrap-extended\forms\_validation.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_alert.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_badge.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_buttons.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_caret.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_dropdown.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_forms.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_list-group.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_misc.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_navs.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_pagination.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_progress.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_table-variants.scss" />
+    <Content Include="scss\_bootstrap-extended\mixins\_toasts.scss" />
+    <Content Include="scss\_bootstrap-extended\_accordion.scss" />
+    <Content Include="scss\_bootstrap-extended\_alert.scss" />
+    <Content Include="scss\_bootstrap-extended\_badge.scss" />
+    <Content Include="scss\_bootstrap-extended\_breadcrumb.scss" />
+    <Content Include="scss\_bootstrap-extended\_button-group.scss" />
+    <Content Include="scss\_bootstrap-extended\_buttons.scss" />
+    <Content Include="scss\_bootstrap-extended\_card.scss" />
+    <Content Include="scss\_bootstrap-extended\_carousel.scss" />
+    <Content Include="scss\_bootstrap-extended\_close.scss" />
+    <Content Include="scss\_bootstrap-extended\_dropdown.scss" />
+    <Content Include="scss\_bootstrap-extended\_forms.scss" />
+    <Content Include="scss\_bootstrap-extended\_functions.scss" />
+    <Content Include="scss\_bootstrap-extended\_include.scss" />
+    <Content Include="scss\_bootstrap-extended\_list-group.scss" />
+    <Content Include="scss\_bootstrap-extended\_mixins.scss" />
+    <Content Include="scss\_bootstrap-extended\_modal.scss" />
+    <Content Include="scss\_bootstrap-extended\_nav.scss" />
+    <Content Include="scss\_bootstrap-extended\_navbar.scss" />
+    <Content Include="scss\_bootstrap-extended\_offcanvas.scss" />
+    <Content Include="scss\_bootstrap-extended\_pagination.scss" />
+    <Content Include="scss\_bootstrap-extended\_popover.scss" />
+    <Content Include="scss\_bootstrap-extended\_progress.scss" />
+    <Content Include="scss\_bootstrap-extended\_reboot.scss" />
+    <Content Include="scss\_bootstrap-extended\_root.scss" />
+    <Content Include="scss\_bootstrap-extended\_spinners.scss" />
+    <Content Include="scss\_bootstrap-extended\_tables.scss" />
+    <Content Include="scss\_bootstrap-extended\_toasts.scss" />
+    <Content Include="scss\_bootstrap-extended\_tooltip.scss" />
+    <Content Include="scss\_bootstrap-extended\_type.scss" />
+    <Content Include="scss\_bootstrap-extended\_utilities-ltr.scss" />
+    <Content Include="scss\_bootstrap-extended\_utilities.scss" />
+    <Content Include="scss\_bootstrap-extended\_variables.scss" />
+    <Content Include="scss\_bootstrap.scss" />
+    <Content Include="scss\_colors.scss" />
+    <Content Include="scss\_components.scss" />
+    <Content Include="scss\_components\mixins\_app-brand.scss" />
+    <Content Include="scss\_components\mixins\_avatar.scss" />
+    <Content Include="scss\_components\mixins\_footer.scss" />
+    <Content Include="scss\_components\mixins\_menu.scss" />
+    <Content Include="scss\_components\mixins\_misc.scss" />
+    <Content Include="scss\_components\mixins\_navbar.scss" />
+    <Content Include="scss\_components\mixins\_text-divider.scss" />
+    <Content Include="scss\_components\_app-brand.scss" />
+    <Content Include="scss\_components\_avatar.scss" />
+    <Content Include="scss\_components\_base.scss" />
+    <Content Include="scss\_components\_common.scss" />
+    <Content Include="scss\_components\_footer.scss" />
+    <Content Include="scss\_components\_include.scss" />
+    <Content Include="scss\_components\_layout.scss" />
+    <Content Include="scss\_components\_menu.scss" />
+    <Content Include="scss\_components\_mixins.scss" />
+    <Content Include="scss\_components\_text-divider.scss" />
+    <Content Include="scss\_components\_variables.scss" />
+    <Content Include="scss\_custom-variables\_bootstrap-extended.scss" />
+    <Content Include="scss\_custom-variables\_components.scss" />
+    <Content Include="scss\_custom-variables\_libs.scss" />
+    <Content Include="scss\_custom-variables\_pages.scss" />
+    <Content Include="scss\_custom-variables\_support.scss" />
+    <Content Include="scss\_theme\_common.scss" />
+    <Content Include="scss\_theme\_theme.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="TempImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -264,7 +479,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
